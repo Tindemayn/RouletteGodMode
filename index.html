@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roulette Predictor</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Roulette Predictor</h1>
+        <a href="instructions.html" id="instructionsLink">Instructions</a>
+        <select id="language" onchange="changeLanguage()">
+            <option value="en">English</option>
+            <option value="fi">Suomi</option>
+        </select>
+    </header>
+
+    <main>
+        <form id="inputForm">
+            <label for="lastNumber">Last Number:</label>
+            <input type="number" id="lastNumber" required>
+            
+            <label for="interval">Interval Between Spins (seconds):</label>
+            <input type="number" id="interval" required>
+            
+            <label for="rotationTime">Time for One Rotation (seconds):</label>
+            <input type="number" id="rotationTime" required>
+            
+            <label for="previousBet">Previous Bet (if lost):</label>
+            <input type="number" step="0.01" id="previousBet">
+            
+            <label for="betType">Bet Type:</label>
+            <select id="betType">
+                <option value="number">Number</option>
+                <option value="color">Color</option>
+                <option value="dozen">Dozen</option>
+            </select>
+            
+            <label for="numberOfBets">Number of Bets Placed:</label>
+            <input type="number" id="numberOfBets" required>
+            
+            <button type="submit">Calculate</button>
+        </form>
+
+        <div id="results">
+            <h2 id="resultsTitle">Results</h2>
+            <p id="singleResult"></p>
+            <p id="threeNumbers"></p>
+            <p id="fiveNumbers"></p>
+            <p id="dozen"></p>
+            <p id="color"></p>
+            <p id="nextBet"></p>
+        </div>
+
+        <div id="roulette">
+            <div id="ball"></div>
+            <div class="number" style="top: 10px; left: 140px;">0</div>
+            <div class="number" style="top: 50px; left: 180px;">32</div>
+            <div class="number" style="top: 90px; left: 180px;">15</div>
+            <div class="number" style="top: 130px; left: 140px;">19</div>
+            <div class="number" style="top: 160px; left: 100px;">4</div>
+            <div class="number" style="top: 130px; left: 60px;">21</div>
+            <div class="number" style="top: 90px; left: 60px;">2</div>
+            <div class="number" style="top: 50px; left: 60px;">25</div>
+            <!-- Lisää muut numerot ja niiden sijainnit täällä -->
+        </div>
+    </main>
+
+    <footer>
+        <p id="notificationBar" style="display:none;">
+            <span id="notificationMessage">You have been on this page for 10 minutes! Remember to bookmark this page.</span>
+        </p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            setTimeout(() => {
+                document.getElementById('notificationBar').style.display = 'block';
+            }, 10 * 60 * 1000);
+        
+            const form = document.getElementById('inputForm');
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                calculateResults();
+            });
+        
+            document.getElementById('language').addEventListener('change', changeLanguage);
+        });
+        
+        function calculateResults() {
+            const lastNumber = parseInt(document.getElementById('lastNumber').value);
+            const interval = parseInt(document.getElementById('interval').value);
+            const rotationTime = parseInt(document.getElementById('rotationTime').value);
+            const previousBet = parseFloat(document.getElementById('previousBet').value || 0);
+            const betType = document.getElementById('betType').value;
+            const numberOfBets = parseInt(document.getElementById('numberOfBets').value);
+        
+            // Laskutoimitukset
+            const predictedNumber = (lastNumber + Math.floor(interval / rotationTime)) % 37;
+            const threeNumbers = [(predictedNumber + 37) % 37, (predictedNumber + 1) % 37, (predictedNumber + 2) % 37];
+            const fiveNumbers = [(predictedNumber + 37) % 37, (predictedNumber + 1) % 37, (predictedNumber + 2) % 37, (predictedNumber + 3) % 37, (predictedNumber + 4) % 37];
+            const predictedDozen = Math.floor(predictedNumber / 12) + 1;
+            const predictedColor = predictedNumber % 2 === 0 ? 'Red' : 'Black';
+            const nextBet = previousBet * 2;
+        
+            // Päivitä tulokset
+            document.getElementById('singleResult').textContent = `Predicted Number: ${predictedNumber}`;
+            document.getElementById('threeNumbers').textContent = `Next 3 Numbers: ${threeNumbers.join(', ')}`;
+            document.getElementById('fiveNumbers').textContent = `Next 5 Numbers: ${fiveNumbers.join(', ')}`;
+            document.getElementById('dozen').textContent = `Predicted Dozen: ${predictedDozen}`;
+            document.getElementById('color').textContent = `Predicted Color: ${predictedColor}`;
+            document.getElementById('nextBet').textContent = `Next Bet Amount: ${nextBet}`;
+        
+            // Päivitä ruletin pallon sijainti
+            updateRoulette(predictedNumber);
+        }
+        
+        function updateRoulette(predictedNumber) {
+            const ball = document.getElementById('ball');
+            const angle = (predictedNumber / 37) * 360;
+            ball.style.transform = `rotate(${angle}deg) translate(0, -140px) rotate(-${angle}deg)`;
+        }
+        
+        function changeLanguage() {
+            const language = document.getElementById('language').value;
+            const texts = {
+                en: {
+                    pageTitle: 'Roulette Predictor',
+                    instructionsLink: 'Instructions',
+                    lastNumberLabel: 'Last Number:',
+                    intervalLabel: 'Interval Between Spins (seconds):',
+                    rotationTimeLabel: 'Time for One Rotation (seconds):',
+                    previousBetLabel: 'Previous Bet (if lost):',
+                    betTypeLabel: 'Bet Type:',
+                    numberOfBetsLabel: 'Number of Bets Placed:',
+                    submitButton: 'Calculate',
+                    resultsTitle: 'Results',
+                    notificationMessage: 'You have been on this page for 10 minutes! Remember to bookmark this page.'
+                },
+                fi: {
+                    pageTitle: 'Ruletin Ennustaja',
+                    instructionsLink: 'Ohjeet',
+                    lastNumberLabel: 'Viimeinen numero:',
+                    intervalLabel: 'Aikaväli pyöräytysten välillä (sekuntia):',
+                    rotationTimeLabel: 'Aika yhdelle kierrokselle (sekuntia):',
+                    previousBetLabel: 'Edellinen panos (jos hävitty):',
+                    betTypeLabel: 'Panos tyyppi:',
+                    numberOfBetsLabel: 'Panosten lukumäärä:',
+                    submitButton: 'Laske',
+                    resultsTitle: 'Tulokset',
+                    notificationMessage: 'Olet ollut tällä sivulla 10 minuuttia! Muista lisätä tämä sivu kirjanmerkkeihin.'
+                }
+            };
+        
+            document.title = texts[language].pageTitle;
+            document.querySelector('a[href="instructions.html"]').textContent = texts[language].instructionsLink;
+            document.querySelector('label[for="lastNumber"]').textContent = texts[language].lastNumberLabel;
+            document.querySelector('label[for="interval"]').textContent = texts[language].intervalLabel;
+            document.querySelector('label[for="rotationTime"]').textContent = texts[language].rotationTimeLabel;
+            document.querySelector('label[for="previousBet"]').textContent = texts[language].previousBetLabel;
+            document.querySelector('label[for="betType"]').textContent = texts[language].betTypeLabel;
+            document.querySelector('label[for="numberOfBets"]').textContent = texts[language].numberOfBetsLabel;
+            document.querySelector('button[type="submit"]').textContent = texts[language].submitButton;
+            document.querySelector('#results h2').textContent = texts[language].resultsTitle;
+            document.getElementById('notificationMessage').textContent = texts[language].notificationMessage;
+        }
+    <script src="script.js"></script>
+</body>
+</html>
