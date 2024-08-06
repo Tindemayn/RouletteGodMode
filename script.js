@@ -7,11 +7,11 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('rotationTime').addEventListener('input', saveInitialValues);
 });
 
-let initialInterval = null;
-let initialRotationTime = null;
+let initialInterval = '';
+let initialRotationTime = '';
 
 function saveInitialValues() {
-    if (initialInterval === null && initialRotationTime === null) {
+    if (initialInterval === '' && initialRotationTime === '') {
         initialInterval = document.getElementById('interval').value;
         initialRotationTime = document.getElementById('rotationTime').value;
     } else {
@@ -101,11 +101,11 @@ function calculate(event) {
         results += `Predicted Number: ${predictedNumber}<br>`;
         results += `Next 3 Numbers: ${nextThreeNumbers.join(", ")}<br>`;
         results += `Next 5 Numbers: ${nextFiveNumbers.join(", ")}<br>`;
-        results += `Predicted Dozen: ${predictedDozen}<br>`;
-        results += `Predicted Color: ${predictedColor}<br>`;
-        results += `Next Bet Amount: ${nextBet}<br><br>`;
+        results += `Dozen: ${predictedDozen}<br>`;
+        results += `Color: ${predictedColor}<br>`;
+        results += `Recommended Bet: $${nextBet.toFixed(2)}<br><br>`;
     });
 
-    // Update results on the page
-    document.getElementById("results").innerHTML = results;
+    // Display results
+    document.getElementById("singleResult").innerHTML = results;
 }
