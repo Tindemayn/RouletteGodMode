@@ -1,91 +1,68 @@
-document.addEventListener('DOMContentLoaded', (event) => {
-    setTimeout(() => {
-        document.getElementById('notificationBar').style.display = 'block';
-    }, 10 * 60 * 1000);
+function calculate(event) {
+    event.preventDefault();
 
-    const form = document.getElementById('inputForm');
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
-        calculateResults();
-    });
-
-    document.getElementById('language').addEventListener('change', changeLanguage);
-});
-
-function calculateResults() {
     const lastNumber = parseInt(document.getElementById('lastNumber').value);
-    const interval = parseInt(document.getElementById('interval').value);
-    const rotationTime = parseInt(document.getElementById('rotationTime').value);
-    const previousBet = parseFloat(document.getElementById('previousBet').value || 0);
+    const interval = parseFloat(document.getElementById('interval').value);
+    const rotationTime = parseFloat(document.getElementById('rotationTime').value);
+    const previousBet = parseFloat(document.getElementById('previousBet').value) || 0;
     const betType = document.getElementById('betType').value;
     const numberOfBets = parseInt(document.getElementById('numberOfBets').value);
 
-    // Laskutoimitukset
-    const predictedNumber = (lastNumber + Math.floor(interval / rotationTime)) % 37;
-    const threeNumbers = [(predictedNumber + 37) % 37, (predictedNumber + 1) % 37, (predictedNumber + 2) % 37];
-    const fiveNumbers = [(predictedNumber + 37) % 37, (predictedNumber + 1) % 37, (predictedNumber + 2) % 37, (predictedNumber + 3) % 37, (predictedNumber + 4) % 37];
+    const predictedNumber = (lastNumber + interval) % 37;
+    const nextThreeNumbers = [
+        (lastNumber + interval * 1) % 37,
+        (lastNumber + interval * 2) % 37,
+        (lastNumber + interval * 3) % 37
+    ];
+    const nextFiveNumbers = [
+        (lastNumber + interval * 1) % 37,
+        (lastNumber + interval * 2) % 37,
+        (lastNumber + interval * 3) % 37,
+        (lastNumber + interval * 4) % 37,
+        (lastNumber + interval * 5) % 37
+    ];
     const predictedDozen = Math.floor(predictedNumber / 12) + 1;
     const predictedColor = predictedNumber % 2 === 0 ? 'Red' : 'Black';
-    const nextBet = previousBet * 2;
+    const nextBet = previousBet + numberOfBets * 2;
 
-    // Päivitä tulokset
     document.getElementById('singleResult').textContent = `Predicted Number: ${predictedNumber}`;
-    document.getElementById('threeNumbers').textContent = `Next 3 Numbers: ${threeNumbers.join(', ')}`;
-    document.getElementById('fiveNumbers').textContent = `Next 5 Numbers: ${fiveNumbers.join(', ')}`;
+    document.getElementById('threeNumbers').textContent = `Next 3 Numbers: ${nextThreeNumbers.join(', ')}`;
+    document.getElementById('fiveNumbers').textContent = `Next 5 Numbers: ${nextFiveNumbers.join(', ')}`;
     document.getElementById('dozen').textContent = `Predicted Dozen: ${predictedDozen}`;
     document.getElementById('color').textContent = `Predicted Color: ${predictedColor}`;
     document.getElementById('nextBet').textContent = `Next Bet Amount: ${nextBet}`;
-
-    // Päivitä ruletin pallon sijainti
-    updateRoulette(predictedNumber);
-}
-
-function updateRoulette(predictedNumber) {
-    const ball = document.getElementById('ball');
-    const angle = (predictedNumber / 37) * 360;
-    ball.style.transform = `rotate(${angle}deg) translate(0, -140px) rotate(-${angle}deg)`;
 }
 
 function changeLanguage() {
     const language = document.getElementById('language').value;
-    const texts = {
-        en: {
-            pageTitle: 'Roulette Predictor',
-            instructionsLink: 'Instructions',
-            lastNumberLabel: 'Last Number:',
-            intervalLabel: 'Interval Between Spins (seconds):',
-            rotationTimeLabel: 'Time for One Rotation (seconds):',
-            previousBetLabel: 'Previous Bet (if lost):',
-            betTypeLabel: 'Bet Type:',
-            numberOfBetsLabel: 'Number of Bets Placed:',
-            submitButton: 'Calculate',
-            resultsTitle: 'Results',
-            notificationMessage: 'You have been on this page for 10 minutes! Remember to bookmark this page.'
-        },
-        fi: {
-            pageTitle: 'Ruletin Ennustaja',
-            instructionsLink: 'Ohjeet',
-            lastNumberLabel: 'Viimeinen numero:',
-            intervalLabel: 'Aikaväli pyöräytysten välillä (sekuntia):',
-            rotationTimeLabel: 'Aika yhdelle kierrokselle (sekuntia):',
-            previousBetLabel: 'Edellinen panos (jos hävitty):',
-            betTypeLabel: 'Panos tyyppi:',
-            numberOfBetsLabel: 'Panosten lukumäärä:',
-            submitButton: 'Laske',
-            resultsTitle: 'Tulokset',
-            notificationMessage: 'Olet ollut tällä sivulla 10 minuuttia! Muista lisätä tämä sivu kirjanmerkkeihin.'
-        }
-    };
-
-    document.title = texts[language].pageTitle;
-    document.querySelector('a[href="instructions.html"]').textContent = texts[language].instructionsLink;
-    document.querySelector('label[for="lastNumber"]').textContent = texts[language].lastNumberLabel;
-    document.querySelector('label[for="interval"]').textContent = texts[language].intervalLabel;
-    document.querySelector('label[for="rotationTime"]').textContent = texts[language].rotationTimeLabel;
-    document.querySelector('label[for="previousBet"]').textContent = texts[language].previousBetLabel;
-    document.querySelector('label[for="betType"]').textContent = texts[language].betTypeLabel;
-    document.querySelector('label[for="numberOfBets"]').textContent = texts[language].numberOfBetsLabel;
-    document.querySelector('button[type="submit"]').textContent = texts[language].submitButton;
-    document.querySelector('#results h2').textContent = texts[language].resultsTitle;
-    document.getElementById('notificationMessage').textContent = texts[language].notificationMessage;
+    if (language === 'fi') {
+        document.querySelector('header h1').textContent = 'Ruletti Ennustaja';
+        document.querySelector('header a').textContent = 'Ohjeet';
+        document.querySelector('label[for="lastNumber"]').textContent = 'Viimeinen Numero:';
+        document.querySelector('label[for="interval"]').textContent = 'Pyöräytysten Välinen Aika (sekuntia):';
+        document.querySelector('label[for="rotationTime"]').textContent = 'Yhden Kierroksen Aika (sekuntia):';
+        document.querySelector('label[for="previousBet"]').textContent = 'Edellinen Panos (jos hävitty):';
+        document.querySelector('label[for="betType"]').textContent = 'Panos Tyyppi:';
+        document.querySelector('label[for="numberOfBets"]').textContent = 'Asetettujen Panosten Määrä:';
+        document.querySelector('button[type="submit"]').textContent = 'Laske';
+        document.querySelector('#results h2').textContent = 'Tulokset';
+        document.querySelector('#notificationMessage').textContent = 'Olet ollut tällä sivulla 10 minuuttia! Muista lisätä sivu kirjanmerkkeihin.';
+    } else {
+        document.querySelector('header h1').textContent = 'Roulette Predictor';
+        document.querySelector('header a').textContent = 'Instructions';
+        document.querySelector('label[for="lastNumber"]').textContent = 'Last Number:';
+        document.querySelector('label[for="interval"]').textContent = 'Interval Between Spins (seconds):';
+        document.querySelector('label[for="rotationTime"]').textContent = 'Time for One Rotation (seconds):';
+        document.querySelector('label[for="previousBet"]').textContent = 'Previous Bet (if lost):';
+        document.querySelector('label[for="betType"]').textContent
+ = 'Bet Type:';
+        document.querySelector('label[for="numberOfBets"]').textContent = 'Number of Bets Placed:';
+        document.querySelector('button[type="submit"]').textContent = 'Calculate';
+        document.querySelector('#results h2').textContent = 'Results';
+        document.querySelector('#notificationMessage').textContent = 'You have been on this page for 10 minutes! Remember to bookmark this page.';
+    }
 }
+
+setTimeout(function() {
+    document.getElementById('notificationBar').style.display = 'block';
+}, 600000); // 10 minutes in milliseconds
