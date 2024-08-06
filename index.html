@@ -9,16 +9,13 @@
 <body>
     <header>
         <h1>Roulette Predictor</h1>
-        <div class="header-right">
-            <select id="language" onchange="changeLanguage()">
-                <option value="en">English</option>
-                <option value="fi">Suomi</option>
-            </select>
-            <a href="instructions.html">Instructions</a>
-        </div>
+        <select id="language" onchange="changeLanguage()">
+            <option value="en">English</option>
+            <option value="fi">Finnish</option>
+        </select>
     </header>
     <main>
-        <form id="inputForm" onsubmit="calculate(event)">
+        <form onsubmit="calculate(event)">
             <div class="form-group">
                 <label for="lastNumber">Last Number:</label>
                 <input type="number" id="lastNumber" required>
@@ -37,7 +34,7 @@
             </div>
             <div class="form-group">
                 <label for="betType">Bet Type:</label>
-                <select id="betType" required>
+                <select id="betType">
                     <option value="number">Number</option>
                     <option value="color">Color</option>
                     <option value="dozen">Dozen</option>
@@ -52,17 +49,17 @@
 
         <div id="results">
             <h2>Results</h2>
-            <p id="singleResult">Predicted Number: </p>
-            <p id="threeNumbers">Next 3 Numbers: </p>
-            <p id="fiveNumbers">Next 5 Numbers: </p>
-            <p id="dozen">Predicted Dozen: </p>
-            <p id="color">Predicted Color: </p>
-            <p id="nextBet">Next Bet Amount: </p>
+            <p id="singleResult"></p>
+            <p id="threeNumbers"></p>
+            <p id="fiveNumbers"></p>
+            <p id="dozen"></p>
+            <p id="color"></p>
+            <p id="nextBet"></p>
         </div>
 
         <div id="roulette">
             <div id="ball"></div>
-            <!-- Creating 37 numbers on the roulette wheel -->
+            <!-- Add numbers on the roulette wheel -->
             <div class="number" style="transform: rotate(0deg) translate(0, -140px);">0</div>
             <div class="number" style="transform: rotate(9.72deg) translate(0, -140px);">32</div>
             <div class="number" style="transform: rotate(19.44deg) translate(0, -140px);">15</div>
@@ -101,11 +98,10 @@
             <div class="number" style="transform: rotate(340.2deg) translate(0, -140px);">3</div>
             <div class="number" style="transform: rotate(349.92deg) translate(0, -140px);">26</div>
         </div>
-
-        <div id="notificationBar" style="display: none;">
-            <p id="notificationMessage">You have been on this page for 10 minutes! Remember to bookmark this page.</p>
-        </div>
     </main>
+    <div id="notificationBar" style="display: none;">
+        <p id="notificationMessage">You have been on this page for 10 minutes! Remember to bookmark this page.</p>
+    </div>
     <footer>
         <p>&copy; 2024 Roulette Predictor</p>
     </footer>
