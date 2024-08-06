@@ -1,6 +1,23 @@
 document.addEventListener("DOMContentLoaded", function () {
     setTimeout(showNotification, 600000); // Show notification after 10 minutes
+
+    // Save initial interval and rotation time values
+    document.getElementById('interval').addEventListener('input', saveInitialValues);
+    document.getElementById('rotationTime').addEventListener('input', saveInitialValues);
 });
+
+let initialInterval = null;
+let initialRotationTime = null;
+
+function saveInitialValues() {
+    if (initialInterval === null && initialRotationTime === null) {
+        initialInterval = document.getElementById('interval').value;
+        initialRotationTime = document.getElementById('rotationTime').value;
+    } else {
+        document.getElementById('interval').value = initialInterval;
+        document.getElementById('rotationTime').value = initialRotationTime;
+    }
+}
 
 function showNotification() {
     document.getElementById("notificationBar").style.display = "block";
@@ -48,15 +65,13 @@ function calculate(event) {
     // Calculate the next predicted positions based on the order
     const predictedNumber = rouletteOrder[(currentIndex + 1) % 37];
     const nextThreeNumbers = [
-        rouletteOrder[(currentIndex + 2) % 37], 
-        rouletteOrder[(currentIndex + 3) % 37], 
+        rouletteOrder[(currentIndex + 2) % 37],
+        rouletteOrder[(currentIndex + 3) % 37],
         rouletteOrder[(currentIndex + 4) % 37]
     ];
     const nextFiveNumbers = [
-        rouletteOrder[(currentIndex + 2) % 37], 
-        rouletteOrder[(currentIndex + 3) % 37], 
-        rouletteOrder[(currentIndex + 4) % 37], 
-        rouletteOrder[(currentIndex + 5) % 37], 
+        ...nextThreeNumbers,
+        rouletteOrder[(currentIndex + 5) % 37],
         rouletteOrder[(currentIndex + 6) % 37]
     ];
 
