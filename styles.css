@@ -1,36 +1,26 @@
-/* Yleiset tyylit */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
+    box-sizing: border-box;
+    background-color: #f4f4f9;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 header {
     background-color: #333;
     color: white;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 10px;
+    text-align: center;
 }
 
 header h1 {
     margin: 0;
 }
 
-.header-right {
-    display: flex;
-    align-items: center;
-}
-
-header select, header a {
-    color: white;
-    background: none;
-    border: none;
-    font-size: 1em;
-    cursor: pointer;
+header select {
     margin-left: 10px;
 }
 
@@ -39,6 +29,7 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex-grow: 1;
 }
 
 form {
@@ -47,31 +38,31 @@ form {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
-    width: 300px;
 }
 
 .form-group {
     margin-bottom: 15px;
 }
 
-label {
+.form-group label {
     display: block;
     margin-bottom: 5px;
 }
 
-input, select, button {
+.form-group input,
+.form-group select {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: 8px;
     box-sizing: border-box;
 }
 
 button {
+    padding: 10px 20px;
     background-color: #333;
     color: white;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
 }
 
 button:hover {
@@ -79,63 +70,61 @@ button:hover {
 }
 
 #results {
+    width: 100%;
+    max-width: 600px;
     background: white;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
     text-align: left;
 }
 
 #roulette {
+    position: relative;
     width: 300px;
     height: 300px;
     margin-top: 20px;
-    position: relative;
-    border: 1px solid #ccc;
-    border-radius: 50%;
 }
 
 .number {
     position: absolute;
-    left: 50%;
-    transform-origin: center center;
     text-align: center;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
     border-radius: 50%;
-    background: #fff;
-    border: 1px solid #333;
-    font-size: 14px;
+    background-color: #333;
+    color: white;
+    font-size: 12px;
 }
 
 #ball {
     position: absolute;
-    left: 50%;
     top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 20px;
     height: 20px;
-    background: red;
+    background-color: red;
     border-radius: 50%;
-    transform: translate(-50%, -50%);
-}
-
-#notificationBar {
-    background-color: yellow;
-    padding: 10px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
 }
 
 footer {
     background-color: #333;
     color: white;
     text-align: center;
-    padding: 10px 0;
-    position: absolute;
-    width: 100%;
+    padding: 10px;
+    margin-top: auto;
+}
+
+#notificationBar {
+    position: fixed;
     bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
 }
