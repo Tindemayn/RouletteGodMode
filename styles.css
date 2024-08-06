@@ -79,36 +79,6 @@ button:hover {
     text-align: left;
 }
 
-#roulette {
-    position: relative;
-    width: 300px;
-    height: 300px;
-    margin-top: 20px;
-}
-
-.number {
-    position: absolute;
-    text-align: center;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    border-radius: 50%;
-    background-color: #333;
-    color: white;
-    font-size: 12px;
-}
-
-#ball {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 20px;
-    height: 20px;
-    background-color: red;
-    border-radius: 50%;
-}
-
 footer {
     background-color: #333;
     color: white;
