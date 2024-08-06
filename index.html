@@ -18,19 +18,19 @@
         <form onsubmit="calculate(event)">
             <div class="form-group">
                 <label for="lastNumber">Last Number:</label>
-                <input type="number" id="lastNumber" required>
+                <input type="text" id="lastNumber" placeholder="e.g. 1, 2, 3" required>
             </div>
             <div class="form-group">
                 <label for="interval">Interval Between Spins (seconds):</label>
-                <input type="number" id="interval" required>
+                <input type="text" id="interval" placeholder="e.g. 10, 20, 30" required>
             </div>
             <div class="form-group">
                 <label for="rotationTime">Time for One Rotation (seconds):</label>
-                <input type="number" id="rotationTime" required>
+                <input type="text" id="rotationTime" placeholder="e.g. 3, 5, 7" required>
             </div>
             <div class="form-group">
                 <label for="previousBet">Previous Bet (if lost):</label>
-                <input type="number" id="previousBet">
+                <input type="number" id="previousBet" placeholder="e.g. 10">
             </div>
             <div class="form-group">
                 <label for="betType">Bet Type:</label>
